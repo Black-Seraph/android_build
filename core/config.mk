@@ -672,13 +672,17 @@ include vendor/cm/build/core/mtk_target.mk
 # Set up final options.
 # ###############################################################
 
-ifneq ($(COMMON_GLOBAL_CFLAGS)$(COMMON_GLOBAL_CPPFLAGS),)
-$(warning COMMON_GLOBAL_C(PP)FLAGS changed)
-$(info *** Device configurations are no longer allowed to change the global flags.)
-$(info *** COMMON_GLOBAL_CFLAGS: $(COMMON_GLOBAL_CFLAGS))
-$(info *** COMMON_GLOBAL_CPPFLAGS: $(COMMON_GLOBAL_CPPFLAGS))
-$(error bailing...)
-endif
+# Because of the way our Mediatek blobs are compiled we need a certain set of modified flags...
+# Sadly, LineageOS doesn't allow easy overriding of these anymore due to this extra check.
+# Thus, we simply null the check, and run a custom mirror of android_build to ship it in the roomservice.xml.
+
+# ifneq ($(COMMON_GLOBAL_CFLAGS)$(COMMON_GLOBAL_CPPFLAGS),)
+# $(warning COMMON_GLOBAL_C(PP)FLAGS changed)
+# $(info *** Device configurations are no longer allowed to change the global flags.)
+# $(info *** COMMON_GLOBAL_CFLAGS: $(COMMON_GLOBAL_CFLAGS))
+# $(info *** COMMON_GLOBAL_CPPFLAGS: $(COMMON_GLOBAL_CPPFLAGS))
+# $(error bailing...)
+# endif
 
 # These can be changed to modify both host and device modules.
 COMMON_GLOBAL_CFLAGS:= -DANDROID -fmessage-length=0 -W -Wall -Wno-unused -Winit-self -Wpointer-arith
